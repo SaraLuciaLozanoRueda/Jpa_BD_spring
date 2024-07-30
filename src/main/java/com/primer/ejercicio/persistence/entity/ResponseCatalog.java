@@ -24,18 +24,18 @@ public class ResponseCatalog {
     @JoinColumn(name = "response_id")
     private Response response;
 
-    private String response_text;
+    private String responseText;
     
     public ResponseCatalog() {
     }
 
     public ResponseCatalog(int response_option, Catalog catalog, Question question, Response response,
-            String response_text) {
+            String responseText) {
         this.response_option = response_option;
         this.catalog = catalog;
         this.question = question;
         this.response = response;
-        this.response_text = response_text;
+        this.responseText = responseText;
     }
 
     public Long getId() {
@@ -78,19 +78,22 @@ public class ResponseCatalog {
         this.response = response;
     }
 
-    public String getResponse_text() {
-        return response_text;
+    public String getResponseText() {
+        return responseText;
     }
 
-    public void setResponse_text(String response_text) {
-        this.response_text = response_text;
+    public void setResponseText(String responseText) {
+        this.responseText = responseText;
     }
 
     @Override
     public String toString() {
         return "ResponseCatalog [id=" + id + ", response_option=" + response_option + ", catalog=" + catalog
-                + ", question=" + question + ", response=" + response + ", response_text=" + response_text + "]";
+                + ", question=" + question + ", response=" + response + ", responseText=" + responseText + "]";
     }
+
+    
+    
 
     
 }

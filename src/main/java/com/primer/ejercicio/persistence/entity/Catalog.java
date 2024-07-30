@@ -1,5 +1,7 @@
 package com.primer.ejercicio.persistence.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -11,11 +13,15 @@ public class Catalog {
 
     private String name;
 
+    @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ResponseCatalog> responseCatalogs;
+
     public Catalog() {
     }
 
-    public Catalog(String name) {
+    public Catalog(String name, Set<ResponseCatalog> responseCatalogs) {
         this.name = name;
+        this.responseCatalogs = responseCatalogs;
     }
 
     public Long getId() {
@@ -34,9 +40,17 @@ public class Catalog {
         this.name = name;
     }
 
+    public Set<ResponseCatalog> getResponseCatalogs() {
+        return responseCatalogs;
+    }
+
+    public void setResponseCatalogs(Set<ResponseCatalog> responseCatalogs) {
+        this.responseCatalogs = responseCatalogs;
+    }
+
     @Override
     public String toString() {
-        return "Catalog [id=" + id + ", name=" + name + "]";
+        return "Catalog [id=" + id + ", name=" + name + ", responseCatalogs=" + responseCatalogs + "]";
     }
 
     
