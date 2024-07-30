@@ -1,6 +1,4 @@
 package com.primer.ejercicio.persistence.entity;
-
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -12,8 +10,9 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime create_at;
-    private LocalDateTime updated_at;
+    @Embedded
+    Audit audit = new Audit();
+
     private String description;
     private String name;
     
@@ -23,10 +22,8 @@ public class Survey {
     public Survey() {
     }
 
-    public Survey(LocalDateTime create_at, LocalDateTime updated_at, String description, String name,
-            Set<Chapter> chapters) {
-        this.create_at = create_at;
-        this.updated_at = updated_at;
+    public Survey(Audit audit, String description, String name, Set<Chapter> chapters) {
+        this.audit = audit;
         this.description = description;
         this.name = name;
         this.chapters = chapters;
@@ -40,20 +37,12 @@ public class Survey {
         this.id = id;
     }
 
-    public LocalDateTime getCreate_at() {
-        return create_at;
+    public Audit getAudit() {
+        return audit;
     }
 
-    public void setCreate_at(LocalDateTime create_at) {
-        this.create_at = create_at;
-    }
-
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+    public void setAudit(Audit audit) {
+        this.audit = audit;
     }
 
     public String getDescription() {
@@ -82,8 +71,10 @@ public class Survey {
 
     @Override
     public String toString() {
-        return "Survey [id=" + id + ", create_at=" + create_at + ", updated_at=" + updated_at + ", description="
-                + description + ", name=" + name + ", chapters=" + chapters + "]";
+        return "Survey [id=" + id + ", audit=" + audit + ", description=" + description + ", name=" + name
+                + ", chapters=" + chapters + "]";
     }
+
+    
     
 }
