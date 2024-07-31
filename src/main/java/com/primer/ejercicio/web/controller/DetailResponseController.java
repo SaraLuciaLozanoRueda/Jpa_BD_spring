@@ -1,6 +1,9 @@
 package com.primer.ejercicio.web.controller;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,33 +18,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.primer.ejercicio.domain.service.catalog.CatalogImpl;
-import com.primer.ejercicio.persistence.entity.Catalog;
+import com.primer.ejercicio.domain.service.detailResponse.DetailResponseService;
+import com.primer.ejercicio.persistence.entity.DetailsResponse;
 
 import jakarta.validation.Valid;
 
+
 @RestController
-@RequestMapping("/api/catalogs")
-public class CatalogController {
+@RequestMapping("/api/detailresponse")
+public class DetailResponseController {
     @Autowired
-    private CatalogImpl service;
+    private DetailResponseService service;
 
     @GetMapping
-    public List<Catalog> listCatalog(){
+    public List<DetailsResponse> listDetailsResponse(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Catalog> view(@PathVariable Long id){
-        Optional<Catalog> optionalCatalog = service.findById(id);
-        if(optionalCatalog.isPresent()){
-            return ResponseEntity.ok(optionalCatalog.orElseThrow());
+    public ResponseEntity<DetailsResponse> view(@PathVariable Long id){
+        Optional<DetailsResponse> optionalDetailsResponse = service.findById(id);
+        if(optionalDetailsResponse.isPresent()){
+            return ResponseEntity.ok(optionalDetailsResponse.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Catalog catalog,BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody DetailsResponse catalog,BindingResult result){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -49,11 +53,11 @@ public class CatalogController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Catalog catalog,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody DetailsResponse catalog,BindingResult result,@PathVariable Long id){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        Optional<Catalog> catalogOpt = service.update(id, catalog);
+        Optional<DetailsResponse> catalogOpt = service.update(id, catalog);
         if (catalogOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(catalogOpt.orElseThrow());
         }
@@ -61,10 +65,10 @@ public class CatalogController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Catalog> delete(@PathVariable Long id){
-        Catalog catalog = new Catalog();
+    public ResponseEntity<DetailsResponse> delete(@PathVariable Long id){
+        DetailsResponse catalog = new DetailsResponse();
         catalog.setId(id);
-        Optional<Catalog> catalogOpt = service.delete(id);
+        Optional<DetailsResponse> catalogOpt = service.delete(id);
         if (catalogOpt.isPresent()) {
             return ResponseEntity.ok(catalogOpt.orElseThrow());
         }

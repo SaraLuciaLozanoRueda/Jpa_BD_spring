@@ -3,6 +3,7 @@ package com.primer.ejercicio.persistence.entity;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "catalogs")
@@ -11,6 +12,7 @@ public class Catalog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty (message = "{NotEmpty.catalog.name}")
     private String name;
 
     @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,6 +1,8 @@
 package com.primer.ejercicio.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "chapters")
@@ -11,9 +13,13 @@ public class Chapter {
     
     @ManyToOne
     @JoinColumn(name = "survey_id")
+    @NotNull (message = "{NotNull.chapter.survey}")
     private Survey survey;
-
+    
+    @NotEmpty (message = "{NotEmpty.chapter.chapter_number}" )
     private String chapter_number;
+
+    @NotNull (message = "{NotNull.chapter.chapter_title}")
     private String chapter_title;
     
     public Chapter() {

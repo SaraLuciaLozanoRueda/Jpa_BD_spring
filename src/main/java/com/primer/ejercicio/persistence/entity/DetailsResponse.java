@@ -1,6 +1,8 @@
 package com.primer.ejercicio.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "detail_responses")
@@ -9,16 +11,20 @@ public class DetailsResponse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "{NotNull.detailsresponse.response_option}")
     private int response_option;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
+    @NotNull(message = "{NotNull.detailsresponse.question}")
     private Question question;
 
     @ManyToOne
     @JoinColumn(name = "response_id")
+    @NotNull(message = "{NotNull.detailsresponse.response}")
     private Response response;
 
+    @NotBlank(message = "{NotBlank.detailsresponse.response_text}")
     private String response_text;
     
     public DetailsResponse() {
