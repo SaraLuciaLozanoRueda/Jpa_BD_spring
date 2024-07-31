@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.primer.ejercicio.domain.service.detailResponse.DetailResponseService;
+import com.primer.ejercicio.domain.service.detailResponse.DetailResponseImpl;
 import com.primer.ejercicio.persistence.entity.DetailsResponse;
 
 import jakarta.validation.Valid;
@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/detailresponse")
 public class DetailResponseController {
     @Autowired
-    private DetailResponseService service;
+    private DetailResponseImpl service;
 
     @GetMapping
     public List<DetailsResponse> listDetailsResponse(){
@@ -45,32 +45,32 @@ public class DetailResponseController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody DetailsResponse catalog,BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody DetailsResponse detailresponse,BindingResult result){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(catalog));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(detailresponse));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody DetailsResponse catalog,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody DetailsResponse detailresponse,BindingResult result,@PathVariable Long id){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        Optional<DetailsResponse> catalogOpt = service.update(id, catalog);
-        if (catalogOpt.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(catalogOpt.orElseThrow());
+        Optional<DetailsResponse> detailresponseOpt = service.update(id, detailresponse);
+        if (detailresponseOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(detailresponseOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<DetailsResponse> delete(@PathVariable Long id){
-        DetailsResponse catalog = new DetailsResponse();
-        catalog.setId(id);
-        Optional<DetailsResponse> catalogOpt = service.delete(id);
-        if (catalogOpt.isPresent()) {
-            return ResponseEntity.ok(catalogOpt.orElseThrow());
+        DetailsResponse detailresponse = new DetailsResponse();
+        detailresponse.setId(id);
+        Optional<DetailsResponse> detailresponseOpt = service.delete(id);
+        if (detailresponseOpt.isPresent()) {
+            return ResponseEntity.ok(detailresponseOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }

@@ -1,6 +1,8 @@
 package com.primer.ejercicio.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "response_catalogs")
@@ -8,22 +10,28 @@ public class ResponseCatalog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "{NotNull.responsecatlog.response_option}")
     private int response_option;
 
 
     @ManyToOne
     @JoinColumn(name ="catalog_id" )
+    @NotNull(message = "{NotNull.responsecatlog.catalog}" )
     private Catalog catalog;
 
 
     @ManyToOne
     @JoinColumn(name = "question_id")
+    @NotNull(message = "{NotNull.responsecatlog.question}")
     private Question question;
 
     @ManyToOne
     @JoinColumn(name = "response_id")
+    @NotNull(message = "{NotNull.responsecatlog.response}")
     private Response response;
 
+    @NotBlank(message = "{NotBlank.responsecatlog.responseText}")
     private String responseText;
     
     public ResponseCatalog() {

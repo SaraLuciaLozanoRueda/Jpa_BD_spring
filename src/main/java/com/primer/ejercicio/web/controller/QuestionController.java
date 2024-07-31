@@ -18,58 +18,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.primer.ejercicio.domain.service.chapter.ChapterImpl;
-import com.primer.ejercicio.persistence.entity.Chapter;
+import com.primer.ejercicio.domain.service.question.QuestioImpl;
+import com.primer.ejercicio.persistence.entity.Question;
 
 import jakarta.validation.Valid;
 
+
 @RestController
-@RequestMapping("/api/chapters")
-public class ChapterController {
+@RequestMapping("api/questions")
+public class QuestionController {
     @Autowired
-    private ChapterImpl service;
+    private QuestioImpl service;
 
     @GetMapping
-    public List<Chapter> listChapter(){
+    public List<Question> listQuestion(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chapter> view(@PathVariable Long id){
-        Optional<Chapter> optionalChapter = service.findById(id);
-        if(optionalChapter.isPresent()){
-            return ResponseEntity.ok(optionalChapter.orElseThrow());
+    public ResponseEntity<Question> view(@PathVariable Long id){
+        Optional<Question> optionalQuestion = service.findById(id);
+        if(optionalQuestion.isPresent()){
+            return ResponseEntity.ok(optionalQuestion.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Chapter chapter,BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody Question question,BindingResult result){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(chapter));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(question));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Chapter chapter,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody Question question,BindingResult result,@PathVariable Long id){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        Optional<Chapter> chapterOpt = service.update(id, chapter);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(chapterOpt.orElseThrow());
+        Optional<Question> questionOpt = service.update(id, question);
+        if (questionOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(questionOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Chapter> delete(@PathVariable Long id){
-        Chapter chapter = new Chapter();
-        chapter.setId(id);
-        Optional<Chapter> chapterOpt = service.delete(id);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.ok(chapterOpt.orElseThrow());
+    public ResponseEntity<Question> delete(@PathVariable Long id){
+        Question question = new Question();
+        question.setId(id);
+        Optional<Question> questionOpt = service.delete(id);
+        if (questionOpt.isPresent()) {
+            return ResponseEntity.ok(questionOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
@@ -81,4 +82,4 @@ public class ChapterController {
         });
         return ResponseEntity.badRequest().body(errors);
         }
-}
+}   

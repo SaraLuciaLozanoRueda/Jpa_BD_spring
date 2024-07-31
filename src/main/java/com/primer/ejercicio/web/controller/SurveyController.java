@@ -18,58 +18,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.primer.ejercicio.domain.service.chapter.ChapterImpl;
-import com.primer.ejercicio.persistence.entity.Chapter;
+import com.primer.ejercicio.domain.service.survey.SurveyImpl;
+import com.primer.ejercicio.persistence.entity.Survey;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/chapters")
-public class ChapterController {
+@RequestMapping("api/surveys")
+public class SurveyController {
     @Autowired
-    private ChapterImpl service;
+    private SurveyImpl service;
 
     @GetMapping
-    public List<Chapter> listChapter(){
+    public List<Survey> listCatalog(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chapter> view(@PathVariable Long id){
-        Optional<Chapter> optionalChapter = service.findById(id);
-        if(optionalChapter.isPresent()){
-            return ResponseEntity.ok(optionalChapter.orElseThrow());
+    public ResponseEntity<Survey> view(@PathVariable Long id){
+        Optional<Survey> optionalSurvey = service.findById(id);
+        if(optionalSurvey.isPresent()){
+            return ResponseEntity.ok(optionalSurvey.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Chapter chapter,BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody Survey survey,BindingResult result){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(chapter));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(survey));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Chapter chapter,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody Survey survey,BindingResult result,@PathVariable Long id){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        Optional<Chapter> chapterOpt = service.update(id, chapter);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(chapterOpt.orElseThrow());
+        Optional<Survey> surveyOpt = service.update(id, survey);
+        if (surveyOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(surveyOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Chapter> delete(@PathVariable Long id){
-        Chapter chapter = new Chapter();
-        chapter.setId(id);
-        Optional<Chapter> chapterOpt = service.delete(id);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.ok(chapterOpt.orElseThrow());
+    public ResponseEntity<Survey> delete(@PathVariable Long id){
+        Survey survey = new Survey();
+        survey.setId(id);
+        Optional<Survey> surveyOpt = service.delete(id);
+        if (surveyOpt.isPresent()) {
+            return ResponseEntity.ok(surveyOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
@@ -81,4 +81,5 @@ public class ChapterController {
         });
         return ResponseEntity.badRequest().body(errors);
         }
+      
 }

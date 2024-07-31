@@ -18,58 +18,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.primer.ejercicio.domain.service.chapter.ChapterImpl;
-import com.primer.ejercicio.persistence.entity.Chapter;
+import com.primer.ejercicio.domain.service.responseOption.ResponseOptionImpl;
+import com.primer.ejercicio.persistence.entity.ResponseOption;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/chapters")
-public class ChapterController {
+@RequestMapping("/api/responsesOptions")
+public class ResponseOptionController {
     @Autowired
-    private ChapterImpl service;
+    private ResponseOptionImpl service;
 
     @GetMapping
-    public List<Chapter> listChapter(){
+    public List<ResponseOption> listResponse(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Chapter> view(@PathVariable Long id){
-        Optional<Chapter> optionalChapter = service.findById(id);
-        if(optionalChapter.isPresent()){
-            return ResponseEntity.ok(optionalChapter.orElseThrow());
+    public ResponseEntity<ResponseOption> view(@PathVariable Long id){
+        Optional<ResponseOption> optionalResponse = service.findById(id);
+        if(optionalResponse.isPresent()){
+            return ResponseEntity.ok(optionalResponse.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Chapter chapter,BindingResult result){
+    public ResponseEntity<?> create(@Valid @RequestBody ResponseOption responseOption,BindingResult result){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(chapter));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(responseOption));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Chapter chapter,BindingResult result,@PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody ResponseOption responseOption,BindingResult result,@PathVariable Long id){
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        Optional<Chapter> chapterOpt = service.update(id, chapter);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(chapterOpt.orElseThrow());
+        Optional<ResponseOption> responseOpt = service.update(id, responseOption);
+        if (responseOpt.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Chapter> delete(@PathVariable Long id){
-        Chapter chapter = new Chapter();
-        chapter.setId(id);
-        Optional<Chapter> chapterOpt = service.delete(id);
-        if (chapterOpt.isPresent()) {
-            return ResponseEntity.ok(chapterOpt.orElseThrow());
+    public ResponseEntity<ResponseOption> delete(@PathVariable Long id){
+        ResponseOption responseOption = new ResponseOption();
+        responseOption.setId(id);
+        Optional<ResponseOption> responseOpt = service.delete(id);
+        if (responseOpt.isPresent()) {
+            return ResponseEntity.ok(responseOpt.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }

@@ -1,6 +1,8 @@
 package com.primer.ejercicio.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "questions")
@@ -11,20 +13,30 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "chapter_id")
+    @NotNull(message = "{NotNull.question.chapter}")
     private Chapter chapter;
 
     @ManyToOne
     @JoinColumn(name = "parent_question_id")
+    @NotNull(message = "{NotEmpty.question.parentQuestion}")
     private Question parentQuestion;
 
 
     @ManyToOne
     @JoinColumn(name = "survey_id")
+    @NotNull(message = "{NotNull.question.survey}")
     private Survey survey;
 
+    @NotNull(message = "{NotNull.question.question_number}")
     private String question_number;
+
+    @NotBlank(message = "{NotBlank.question.question_text}")
     private String question_text;
+
+    @NotNull(message = "{NotNull.question.response_type}")
     private String response_type;
+
+    @NotNull(message = "{NotBlank.question.comment_question}")
     private String comment_question;
     
     public Question() {

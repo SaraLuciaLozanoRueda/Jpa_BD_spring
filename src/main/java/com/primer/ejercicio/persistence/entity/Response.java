@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "responses")
@@ -12,13 +14,18 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "{NotNull.response.response_date}")
     private LocalTime response_time;
+
+    @NotNull(message = "{NotNull.response.response_time}")
     private LocalDateTime response_date;
 
     @ManyToOne
     @JoinColumn(name ="survey_id" )
+    @NotNull(message = "{NotNull.response.survey}")
     private Survey survey;
 
+    @NotBlank(message = "{NotBlank.response.name_respondent}")
     private String name_respondent;
     
     public Response() {

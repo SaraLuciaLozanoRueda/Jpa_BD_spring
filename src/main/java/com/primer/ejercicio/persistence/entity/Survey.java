@@ -2,6 +2,8 @@ package com.primer.ejercicio.persistence.entity;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "surveys")
@@ -13,10 +15,14 @@ public class Survey {
     @Embedded
     Audit audit = new Audit();
 
+    @NotNull(message = "{NotNull.survey.description}")
     private String description;
+
+    @NotEmpty(message = "{NotEmpty.survey.name}")
     private String name;
     
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    @NotNull(message = "{NotNull.survey.chapters}")
     private Set<Chapter> chapters;
 
     public Survey() {
